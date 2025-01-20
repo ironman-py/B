@@ -7,8 +7,20 @@ require('dotenv').config(); // Carrega as variáveis de ambiente do arquivo .env
 const app = express();
 const PORT = process.env.PORT || 5000;
 
+const allowedOrigins = ['https://b-mu-two.vercel.app/'];
+
 // Middleware
-app.use(cors());
+app.use(cors({
+    origin: (origin, callback) => {
+        if (!origin || allowedOrigins.indexOf(origin) !== -1) {
+            callback(null, origin);
+        } else {
+            callback(new Error('Not allowed by CORS'));
+        }
+    },
+    methods: ['GET', 'POST'],
+    credentials: true
+}));
 app.use(express.json());
 
 // Conectar ao MongoDB Atlas
