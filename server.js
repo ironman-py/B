@@ -8,6 +8,7 @@ const PORT = process.env.PORT || 5000;
 // Configuração do CORS mais permissiva para desenvolvimento
 const allowedOrigins = [
   'https://bk-beige.vercel.app',
+  'https://linkpequenofrontend-production.up.railway.app',
   'http://localhost:3000',
   'http://localhost:5000'
 ];
