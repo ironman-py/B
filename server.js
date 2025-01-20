@@ -7,7 +7,7 @@ require('dotenv').config(); // Carrega as variáveis de ambiente do arquivo .env
 const app = express();
 const PORT = process.env.PORT || 5000;
 
-const allowedOrigins = ['https://b-mu-two.vercel.app/'];
+const allowedOrigins = ['https://b-mu-two.vercel.app'];
 
 // Middleware
 app.use(cors({
