@@ -8,26 +8,23 @@ const app = express();
 const PORT = process.env.PORT || 5000;
 
 // Configuração do CORS
-const allowedOrigins = ['https://bk-beige.vercel.app']; // Adicione o domínio do frontend aqui
+const allowedOrigins = ['https://bk-beige.vercel.app']; // Domínio permitido para as requisições
 
 app.use(
   cors({
     origin: (origin, callback) => {
-      // Verifica se a origem da requisição está na lista de origens permitidas
+      // Permite requisições sem origem (como ferramentas como Postman)
       if (!origin || allowedOrigins.includes(origin)) {
         callback(null, true);
       } else {
         callback(new Error('Not allowed by CORS'));
       }
     },
-    methods: ['GET', 'POST', 'OPTIONS'], // Adicione 'OPTIONS' para lidar com preflight
+    methods: ['GET', 'POST', 'OPTIONS'], // Permitir métodos usados
     allowedHeaders: ['Content-Type', 'Authorization'], // Headers permitidos
-    credentials: true, // Permite o envio de credenciais (cookies, headers de autenticação, etc.)
+    credentials: true, // Permitir envio de credenciais (cookies, etc.)
   })
 );
-
-// Lidar com requisições OPTIONS (preflight)
-app.options('*', cors()); // Permite requisições OPTIONS para todas as rotas
 
 app.use(express.json());
 
@@ -81,6 +78,7 @@ app.post('/shorten', async (req, res) => {
     const link = await Link.create({ full: formattedUrl });
     res.json(link);
   } catch (error) {
+    console.error(error); // Adicionando log para erro
     res.status(500).json({ error: 'Erro ao encurtar o link' });
   }
 });
@@ -99,6 +97,7 @@ app.get('/:shortUrl', async (req, res) => {
       res.status(404).json({ error: 'Link não encontrado' });
     }
   } catch (error) {
+    console.error(error); // Adicionando log para erro
     res.status(500).json({ error: 'Erro ao buscar o link' });
   }
 });
